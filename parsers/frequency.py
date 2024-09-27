@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 class FrequencyParser(Parser):
 	parser_type = 'frequency'

@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 class DoseParser(Parser):
     parser_type = 'dose'

@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 class AdditionalInfoParser(Parser):
     parser_type = 'additional_info'

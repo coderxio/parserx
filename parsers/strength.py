@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 # TODO: figure out what to do with multiple ingredient strengths
 # NOTE: added \b border at end because was matching on ZONEGRAN (ONE G), 1 GELCAP (1 G), 1 GTT (1 G), and WEIGHT GAIN (EIGHT G)

@@ -1,5 +1,5 @@
-from classes.parser import *
-import method, dose, strength, route, frequency, when, duration, indication, max, additional_info
+from parsers.classes.parser import *
+from parsers import method, dose, strength, route, frequency, when, duration, indication, max, additional_info
 import csv
 
 # TODO: need to move all this to the main app and re-purpose the sig.py parser
@@ -268,8 +268,8 @@ def print_progress_bar (iteration, total, prefix = 'progress:', suffix = 'comple
 
 #print(SigParser().infer(ndc='68788640709'))
 #parsed_sigs = SigParser().parse_sig_csv()
-parsed_sig = SigParser().parse('take 1-2 tabs by mouth qid x7d prn nausea')
-print(parsed_sig)
+#parsed_sig = SigParser().parse('take 1-2 tabs by mouth qid x7d prn nausea')
+#print(parsed_sig)
 #parsed_sigs = SigParser().parse_validate_sig_csv()
 #print(parsed_sigs)
 

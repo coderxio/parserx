@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 # as needed for heartburn | prn for heartburn | p.r.n. heartburn | prn heartburn
 # asNeededBoolean = true

@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 class MethodParser(Parser):
     parser_type = 'method'

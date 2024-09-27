@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 # in the
 # morning | evening | afternoon

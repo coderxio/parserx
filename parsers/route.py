@@ -1,4 +1,4 @@
-from classes.parser import *
+from .classes.parser import *
 
 class RouteParser(Parser):
     parser_type = 'route'

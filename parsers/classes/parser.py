@@ -1,7 +1,7 @@
 import re
 import collections
-from services.normalize import *
-from services.infer import *
+from ..services.normalize import *
+from ..services.infer import *
 
 # TODO: reconfigure patterns to be an array or just a re object instead of a dict
 # TODO: likely move the re.compile out of the normalize patterns method and into the patterns array

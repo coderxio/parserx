@@ -1,8 +1,9 @@
 import csv
+from pathlib import Path
 
 # converts a csv file to a list of dicts
 def csv_to_dict_list(file_name):
-    file_path='services/'
+    file_path='parsers/services/'
     csv_dict_list = []
     with open(file_path + file_name + '.csv', newline='') as csv_file:
         reader = csv.DictReader(csv_file)
