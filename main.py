@@ -20,7 +20,7 @@ def get_input():
             else:
                 print("Invalid value. Enter either a 1 or 2 to continue.")
         except ValueError:
-            print("Invalid value enter a 1 or 2 to continue.")
+            print("Invalid value. Enter either a 1 or 2 to continue.")
 
 
 def generate_output(n):
@@ -35,14 +35,15 @@ def generate_output(n):
                     " "
                 )
                 if inputfile.endswith(".csv") and outputfile.endswith(".csv"):
-                    with open(inputfile, "r") as infile, open(outputfile, "w", newline='') as outfile:
-                        reader = csv.reader(infile)
-                        writer = csv.writer(outfile)
-                        for row in reader:
-                            parsed_sig = SigParser().parse(row[0])
-                            writer.writerow([parsed_sig])
-                    print(f"Output written to {outputfile}")
-                    break
+                    with open(inputfile, "r") as infile:
+                        with open(outputfile, "w", newline='') as outfile:
+                            reader = csv.reader(infile)
+                            writer = csv.writer(outfile)
+                            for row in reader:
+                                parsed_sig = SigParser().parse(row[0])
+                                writer.writerow([parsed_sig])
+                        print(f"Output written to {outputfile}")
+                        break
                 else:
                     print("Both files must end with .csv. Please try again.")
             except ValueError:
@@ -54,7 +55,3 @@ def generate_output(n):
 
 if __name__ == "__main__":
     main()
-
-
-# parsed_sig = SigParser().parse(x)
-# print(parsed_sig)
