@@ -50,7 +50,6 @@ def generate_output(n):
                 print("Invalid. Enter input and output file names separated by a space.")
             except FileNotFoundError:
                 print("Input file not found. Please try again.")
-                pass
 
 
 if __name__ == "__main__":
