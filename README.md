@@ -1,8 +1,14 @@
 # 🧠 ParseRx
 
-Modern, lightweight medication sig parser.
+> A modern, lightweight medication sig parser.
 
 ## Getting started
+
+Input free text medication sigs, output discrete sig elements.
+* Extract method, dose, strength, frequency, route, duration, indication, and additional info
+* Calculate maximum daily dose (preferring explicit MDD in sig over maximum possible dose per day)
+
+Medication "sigs" are the instructions you see on your prescription label - i.e. "take 1-2 tablets by mouth daily". 
 
 ### Installation
 
@@ -64,35 +70,25 @@ progress: |███████████████████████
 Output written to output.csv
 ```
 
-## Result object components
+## Parsed sig components
 
-These are the main components returned from a parsed sig.
+### Text
 
 `sig_text`
 
 A string containing the modified sig_text from the request, converted to lower case, extraneous characters removed, and duplicate spaces converted to single spaces.
 
-`sig_parsed`
+`sig_readable`
 
-A JSON object containing all the parsed components of the free text sig. See details of each component below.
+A human-readable version of the parsed sig for quick and easy validation.
 
-`sig_inferred`
-
-A JSON object containing all the inferred sig components if the request included an ndc or rxcui parameter. See details of each component below.
-
-This entire object will only appear if a valid ndc or rxcui are included as a request parameter. If both are included, ndc will take precedence over rxcui.
-
-`original_sig_text`
-
-A string containing the original, un-modified sig_text from the request.
-
-## Parsed sig components
-
-These components are contained within `sig_parsed`.
+### Method
 
 `method`
 
 How the medication is administered (i.e. take, inject, inhale).
+
+### Dose
 
 `dose`
 
@@ -104,6 +100,8 @@ How much medication patient is instructed to take based on dosage (i.e. 2 tablet
 
 Numbers represented as words in the sig will be converted to integers (i.e. “one” will be converted to 1).
 
+### Strength
+
 `strength`
 
 `strength_max`
@@ -114,9 +112,13 @@ How much medication the patient is instructed to take based on strength (i.e. 50
 
 NOTE: ParseRx intentionally does not parse multiple ingredient strengths (i.e. if 5/325 mg is in a sig, it will return null for strength).
 
+### Route
+
 `route`
 
 Route of administration of the medication (i.e. by mouth, via inhalation, in left eye).
+
+### Frequency
 
 `frequency`
 
@@ -152,6 +154,8 @@ Due to the complexity and variety of medication instructions, these elements are
 
 For convenience, a frequency_readable is generated to represent a human-readable representation of the sig frequency.
 
+### Duration
+
 `duration`
 
 `duration_max`
@@ -162,6 +166,8 @@ How long the patient is instructed to take the medication (i.e. for 7 days, for 
 
 NOTE: this is different from days’ supply, which represents how long a given supply of medication should last.
 
+### Indication / PRN
+
 `as_needed`
 
 `indication`
@@ -170,31 +176,29 @@ Whether the medication should be taken “as needed” (i.e. PRN), and the speci
 
 NOTE: indication may be populated even if as_needed is false. There are chronic indications represented in sigs as well (i.e. for cholesterol, for high blood pressure, for diabetes).
 
-`sig_reviewed_status`
+### Maximum daily dose
 
-This is an indicator that a pharmacist / pharmacy resident has reviewed the sig.
+`max_dose_per_day`
 
-Depending on the review status of the sig, it will return either unreviewed, correct, incorrect, or unknown.
+`max_numerator_value`
 
-`sig_reviewed`
+`max_numerator_unit`
 
-If sig_reviewed_status is unreviewed or unknown, this will be null.
-Otherwise, this will return an object containing the reviewed components of the parsed sig. See details of each component below.
+`max_denominator_value`
 
-NOTE: ParseRx will be constantly improving, and as such, there may be multiple different versions of parsing a given sig. Each of these parsing versions will be reviewed by a pharmacist or pharmacy resident in time. If there exists a version that has a sig_reviewed_status of correct, this is the version that will be returned. Otherwise, the most recently parsed version of the sig will be returned.
+`max_deniminator_unit`
 
-IMPORTANT: Pay close attention to the sig_reviewed_status and sig_reviewed object. It is your responsibility to use this information safely.
+Max numerator and denominator elements are extracted from text explicitly stated in the sig (i.e. if a prescriber writes mdd or nte). 
 
-### Inferred sig components
+Max dose per day looks to both the maximum dose possible per the sig instructions and any explicit mdd or or nte directions, preferring the mdd or nte directions if present.
 
-These components are contained within `sig_inferred`.
+Examples:
 
-`method`
+* take 1 tab every 6 hours mdd 3/d -> max_dose_per_day should be 3, max numerator/denominator should have values
+* take 1 tab every 6 hours -> max_dose_per_day should be 3, max numerator/denominator should not have values
 
-`dose_unit`
+### Additional info
 
-`route`
+`additional_info`
 
-This entire object will only appear if a valid ndc or rxcui are included as a request parameter. If both are included, ndc will take precedence over rxcui.
-
-Any or all of the inferred sig components may be null if it is not possible to infer them.
+Extra instructions such as "take with food" - things that might be on auxillary labels on a prescription bottle.
