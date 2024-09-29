@@ -31,19 +31,12 @@ def generate_output(n):
     else:
         while True:
             try:
-                inputfile, outputfile = input("Enter input.csv and output.csv: ").split(
+                input_file, output_file = input("\n\n**********************************\nPlace your input file in the /csv directory.\n**********************************\n > Input files are read from the /csv directory.\n > Output files are written to the /csv/output directory.\n\n**********************************\nEnter the input file name (input.csv as default) and output file name (output.csv as default), separated by a space.\n").split(
                     " "
                 )
-                if inputfile.endswith(".csv") and outputfile.endswith(".csv"):
-                    with open(inputfile, "r") as infile:
-                        with open(outputfile, "w", newline='') as outfile:
-                            reader = csv.reader(infile)
-                            writer = csv.writer(outfile)
-                            for row in reader:
-                                parsed_sig = SigParser().parse(row[0])
-                                writer.writerow([parsed_sig])
-                        print(f"Output written to {outputfile}")
-                        break
+                if input_file.endswith(".csv") and output_file.endswith(".csv"):
+                    SigParser().parse_sig_csv(input_file, output_file)
+                    print(f"Output written to {output_file}")
                 else:
                     print("Both files must end with .csv. Please try again.")
             except ValueError:

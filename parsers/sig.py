@@ -161,14 +161,16 @@ class SigParser(Parser):
         return inferred
 
     # parse a csv
-    def parse_sig_csv(self):
-        file_path='parsers/csv/'
-        file_name='file_name'
+    def parse_sig_csv(self, input_file='input.csv', output_file='output.csv'):
+        input_folder = 'csv/'
+        output_folder = input_folder + 'output/'
         csv_columns = self.match_keys
         # create an empty list to collect the data
         parsed_sigs = []
         # open the file and read through it line by line
-        with open(file_path + file_name + '.csv') as csv_file:
+        try:
+            input_file_path = input_folder + input_file
+            with open(input_file_path) as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=',')
                 # calculate total number of rows for progress bar
                 row_total = sum(1 for row in csv_reader)
@@ -181,11 +183,12 @@ class SigParser(Parser):
                     sig = row[0]
                     parsed_sig = self.parse(sig)
                     parsed_sigs.append(parsed_sig.copy())
+        except IOError:
+            print("I/O error")
 
-        output_file_path = 'parsers/csv/output/'
         try:
-            file_suffix = '_parsed.csv'
-            with open(output_file_path + file_name + file_suffix, 'w') as csv_file:
+            output_file_path = output_folder + output_file
+            with open(output_file_path, 'w') as csv_file:
                 writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
                 writer.writeheader()
                 for parsed_sig in parsed_sigs:
@@ -194,69 +197,6 @@ class SigParser(Parser):
             print("I/O error")
 
         return parsed_sigs
-
-    # parse and validate a csv
-    def parse_validate_sig_csv(self):
-        file_path='parsers/csv/'
-        file_name='file_name'
-        # create an empty list to collect the data
-        parsed_sigs = []
-        # open the file and read through it line by line
-        with open(file_path + file_name + '.csv') as csv_file:
-                csv_reader = csv.DictReader(csv_file)
-                 # calculate total number of rows for progress bar
-                row_total = sum(1 for row in csv_reader)
-                row_count = 0
-                # reset csv file to beginning
-                csv_file.seek(0)
-                # define fields that should all be equal to count as a match between two versions of sigs
-                important_fields = ['method', 'dose', 'dose_max', 'dose_unit', 'strength', 'strength_max', 'strength_unit', 'route', 'frequency', 'frequency_max', 'period', 'period_max', 'period_unit', 'time_duration', 'time_duration_unit', 'day_of_week', 'time_of_day', 'when', 'offset', 'bounds', 'count', 'duration', 'duration_max', 'duration_unit', 'as_needed', 'indication']
-                count_good = 0
-                count_bad = 0
-                count_neutral = 0
-                # skip first row because it's just the headers from the database
-                next(csv_reader)
-                for row in csv_reader:
-                    # initialize a dictionary to store differences
-                    different_fields = dict.fromkeys(['different_' + field for field in important_fields])
-                    row_count += 1
-                    print_progress_bar(row_count, row_total)
-                    sig = row['sig_text']
-                    parsed_sig = self.parse(sig)
-                    for field in important_fields:
-                        # compare string versions of both fields because database CSV stores as string, but parser evaluates as integer for some items
-                        # 'NULL' == None because database returns empty values as NULL, but parser returns blanks
-                        different_fields['different_' + field] = 0 if str(parsed_sig[field]) == str(row[field]) or (parsed_sig[field] == None and row[field] == 'NULL') else 1
-                        
-                    # apply "new" prefix to keys in recently parsed sig
-                    # this is so the output csv can differentiate between current, new, and different components
-                    for key in list(parsed_sig.keys()):
-                        parsed_sig['new_' + key] = parsed_sig.pop(key)
-                    
-                    if sum(different_fields.values()) == 0:
-                        count_good += 1
-                    else:
-                        count_bad += 1
-                    # https://www.geeksforgeeks.org/python-sum-list-of-dictionaries-with-same-key/
-                    parsed_sigs.append({**row, **parsed_sig, **different_fields})
-
-                print('Count good: {}, Count bad: {}'.format(count_good, count_bad))
-        
-        # use the combined dict's keys as csv columns
-        csv_columns = parsed_sigs[0].keys()
-        output_file_path = 'parsers/csv/output/'
-        try:
-            file_suffix = '_validated_parsed.csv'
-            with open(output_file_path + file_name + file_suffix, 'w') as csv_file:
-                writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
-                writer.writeheader()
-                for parsed_sig in parsed_sigs:
-                    writer.writerow(parsed_sig)
-        except IOError:
-            print("I/O error")
-
-        return parsed_sigs
-
 
 def print_progress_bar (iteration, total, prefix = 'progress:', suffix = 'complete', decimals = 1, length = 50, fill = '█', print_end = "\r"):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
