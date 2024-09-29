@@ -1,6 +1,6 @@
 # ParseRx specific
-csv/
-output/
+csv/*.csv
+csv/output/*.csv
 
 # byte-compiled / optimized / DLL files
 __pycache__/
