@@ -26,8 +26,10 @@ def get_input():
 def generate_output(n):
     if n == 1:
         sig = input("Enter sig: ")
-        print(SigParser().parse(sig))
-
+        parsed_sig = SigParser().parse(sig)
+        sig_text = parsed_sig['sig_text']
+        sig_readable = parsed_sig['sig_readable']
+        print(f'\n**********************************\n\n{sig_text}   -->   {sig_readable}\n\n**********************************')
     else:
         while True:
             try:
