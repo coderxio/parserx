@@ -1,4 +1,5 @@
 import csv
+from pathlib import Path
 
 # converts a csv file to a list of dicts
 def csv_to_dict_list(file_name):
