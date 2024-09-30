@@ -202,7 +202,7 @@ Max dose per day looks to both the maximum dose possible per the sig instruction
 Examples:
 
 * take 1 tab every 6 hours mdd 3/d -> max_dose_per_day should be 3, max numerator/denominator should have values
-* take 1 tab every 6 hours -> max_dose_per_day should be 3, max numerator/denominator should not have values
+* take 1 tab every 6 hours -> max_dose_per_day should be 4, max numerator/denominator should not have values
 
 ### Additional info
 
