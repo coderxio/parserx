@@ -1,7 +1,6 @@
 from parsers.sig import *
 import csv
 
-
 def main():
     value = get_input()
     generate_output(value)
@@ -27,9 +26,22 @@ def generate_output(n):
     if n == 1:
         sig = input("Enter sig: ")
         parsed_sig = SigParser().parse(sig)
-        sig_text = parsed_sig['sig_text']
-        sig_readable = parsed_sig['sig_readable']
-        print(f'\n**********************************\n\n{sig_text}   -->   {sig_readable}\n\n**********************************')
+        original_sig = parsed_sig['sig_text']
+        parsed_sig_readable = parsed_sig['sig_readable']
+        print(f'\n**********************************\n\n{original_sig}   -->   {parsed_sig_readable}\n\n**********************************')
+        method = parsed_sig['method_readable']
+        dose = parsed_sig['dose_readable']
+        strength = parsed_sig['strength_readable']
+        route = parsed_sig['route_readable']
+        frequency = parsed_sig['frequency_readable']
+        when = parsed_sig['when_readable']
+        duration = parsed_sig['duration_readable']
+        indication = parsed_sig['indication_readable']
+        max_dose = parsed_sig['max_readable']
+        additional_info = parsed_sig['additional_info_readable']
+
+        print('Method       Dose        Strength        Route       Frequency       When        Duration        Indication      Max Dose        Additional Info')
+        print(f'{method}        {dose}      {strength}      {route}     {frequency}     {when}      {duration}      {indication}        {max_dose}      {additional_info}')
     else:
         while True:
             try:
