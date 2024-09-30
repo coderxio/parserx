@@ -41,33 +41,44 @@ python main.py
 
 ### Parse single sig
 
+Individual sig usage: 
+
+```
+python -m parserx take 1 tab by mouth daily
+```
+
+* Replace `take 1 tab by mouth daily` with your own sig.
+
 Example:
 
 ```
-Enter 1 for a single sig. Enter 2 for bulk sigs via .csv file: 1
-Enter sig: take 1-2 tab po qid x7d prn pain
+$ python -m parserx take 1-2 tab po qid x7d prn pain
 {'sig_text': 'take 1-2 tab po qid x7d prn pain', 'sig_readable': 'take 1-2 tablets by mouth 4 times a day for 7 days as needed for pain', 'max_dose_per_day': 8.0, 'method': 'take', 'method_text_start': 0, 'method_text_end': 4, 'method_text': 'take', 'method_readable': 'take', 'dose': 1, 'dose_max': 2, 'dose_unit': 'tablet', 'dose_text_start': 5, 'dose_text_end': 12, 'dose_text': '1-2 tab', 'dose_readable': '1-2 tablets', 'strength': None, 'strength_max': None, 'strength_unit': None, 'strength_text_start': None, 'strength_text_end': None, 'strength_text': None, 'strength_readable': None, 'route': 'by mouth', 'route_text_start': 13, 'route_text_end': 15, 'route_text': 'po', 'route_readable': 'by mouth', 'frequency': 4, 'frequency_max': None, 'period': 1, 'period_max': None, 'period_unit': 'day', 'time_duration': None, 'time_duration_unit': None, 'day_of_week': None, 'time_of_day': None, 'offset': None, 'bounds': None, 'count': None, 'frequency_text_start': 16, 'frequency_text_end': 19, 'frequency_text': 'qid', 'frequency_readable': '4 times a day', 'when': None, 'when_text_start': None, 'when_text_end': None, 'when_text': None, 'when_readable': None, 'duration': 7, 'duration_max': None, 'duration_unit': 'day', 'duration_text_start': 20, 'duration_text_end': 23, 'duration_text': '7 d', 'duration_readable': 'for 7 days', 'as_needed': 1, 'indication': 'pain', 'indication_text_start': 24, 'indication_text_end': 32, 'indication_text': 'prn pain', 'indication_readable': 'as needed for pain', 'max_numerator_value': None, 'max_numerator_unit': None, 'max_denominator_value': None, 'max_denominator_unit': None, 'max_text_start': None, 'max_text_end': None, 'max_text': None, 'max_readable': None, 'additional_info': None, 'additional_info_text_start': None, 'additional_info_text_end': None, 'additional_info_text': None, 'additional_info_readable': None}
 ```
 
+In this example, "take 1-2 tab po qid x7d prn pain" is interepreted by ParseRx as "take 1-2 tablets by mouth 4 times a day for 7 days as needed for pain".
+
+* You can see each individual component that comprises that sig, as well as the start and end characters within the original sig.
+
 ### Parse CSV of sigs
+
+Bulk sig usage:  
+
+```
+python -m parserx --b input.csv output.csv
+```
+
+* Use the `--b` flag for bulk parsing of sigs in CSV files.
+* Replace input.csv with the name of your input file (needs to be in the /csv directory).
+* Replace output.csv with the desired name of your output file (will be in the /csv/output directory).
+* Separate input and output file names with a space.
 
 Example:
 
 ```
-Enter 1 for a single sig. Enter 2 for bulk sigs via .csv file: 2
-
-
-**********************************
-Place your input file in the /csv directory.
-**********************************
- > Input files are read from the /csv directory.
- > Output files are written to the /csv/output directory.
-
-**********************************
-Enter the input file name (input.csv as default) and output file name (output.csv as default), separated by a space.
-input.csv output.csv
-progress: |██████████████████████████████████████████████████| 100.0% complete (n = 250)
-Output written to output.csv
+$ python -m parserx --b input.csv output.csv
+Progress: |██████████████████████████████████████████████████| 100.0% complete (n = 250)
+Output written to output.csv.
 ```
 
 ## Parsed sig components
