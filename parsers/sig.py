@@ -198,7 +198,7 @@ class SigParser(Parser):
 
         return parsed_sigs
 
-def print_progress_bar (iteration, total, prefix = 'progress:', suffix = 'complete', decimals = 1, length = 50, fill = '█', print_end = "\r"):
+def print_progress_bar (iteration, total, prefix = 'Progress:', suffix = 'complete', decimals = 1, length = 50, fill = '█', print_end = "\r"):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filled_length = int(length * iteration // total)
     bar = fill * filled_length + '-' * (length - filled_length)
