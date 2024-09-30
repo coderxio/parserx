@@ -33,12 +33,6 @@ Activate virtual environment.
 source venv/bin/activate
 ```
 
-Initialize script.
-
-```
-python main.py
-```
-
 ### Parse single sig
 
 Individual sig usage: 
