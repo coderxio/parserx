@@ -81,6 +81,8 @@ Progress: |███████████████████████
 Output written to output.csv.
 ```
 
+![image](https://github.com/user-attachments/assets/fc5e5e21-0f80-4688-9e55-f631e1caf3cc)
+
 ## Parsed sig components
 
 ### Text
