@@ -1,5 +1,7 @@
 from parsers.sig import *
 import sys
+import json
+import pprint
 
 
 class bcolors:
@@ -29,6 +31,8 @@ def get_input():
             elif sys.argv[1] == "--b":
                 input_file, output_file = sys.argv[2], sys.argv[3]
                 return 2
+            elif sys.argv[1] == "--n":
+                return 3
             else:
                 return 1
         except IndexError:
@@ -65,7 +69,8 @@ def print_usage_instructions():
 
 def generate_output(n):
     if n == 1:
-        print(SigParser().parse(" ".join(sys.argv[1:])))
+        matches = SigParser().parse(" ".join(sys.argv[1:]))
+        print(json.dumps(matches, indent=4))
 
     elif n == 2:
         try:
@@ -79,7 +84,11 @@ def generate_output(n):
             print("Invalid. Enter input and output file names separated by a space.")
         except FileNotFoundError:
             print("Input file not found. Please try again.")
-
+    elif n == 3:
+        results = {}
+        results['parsed'] = SigParser().parse(" ".join(sys.argv[3:]))
+        results['inferred'] = SigParser().infer(results['parsed'], ndc=sys.argv[2]) 
+        print(json.dumps(results, indent=4))
 
 if __name__ == "__main__":
     main()
