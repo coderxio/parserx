@@ -1,7 +1,6 @@
 from parsers.sig import *
 import sys
 import json
-import pprint
 
 
 class bcolors:
