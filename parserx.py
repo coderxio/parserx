@@ -1,6 +1,6 @@
 from parsers.sig import *
 import sys
-
+from tabulate import tabulate
 
 class bcolors:
     HEADER = "\033[95m"
@@ -65,7 +65,19 @@ def print_usage_instructions():
 
 def generate_output(n):
     if n == 1:
-        print(SigParser().parse(" ".join(sys.argv[1:])))
+        parsed_sig = SigParser().parse(" ".join(sys.argv[1:]))
+        headers = ['type', 'parsed', 'source']
+        table = []
+        component_types = ['method', 'dose', 'strength', 'route', 'frequency', 'duration', 'indication', 'max', 'additional_info']
+        for component_type in component_types:
+            table.append([component_type,parsed_sig[f'{component_type}_readable'],parsed_sig[f'{component_type}_text']])
+        sig_text = parsed_sig['sig_text']
+        sig_readable = parsed_sig['sig_readable']
+        print('\n')
+        print(f'original sig: {sig_text}')
+        print(f'parsed sig:   {sig_readable}')
+        print('\n')
+        print(tabulate(table, headers))
 
     elif n == 2:
         try:
