@@ -121,7 +121,7 @@ METHODS = {
   'inject': [r'\binj\b'],
   'wash': [],
   'sprinkle': [],
-  'apply': [r'^app\b'],
+  'apply': [r'^app\b', 'aaa'],
   'administer': [],
   'dissolve': [],
   'shampoo': [],
@@ -670,6 +670,8 @@ DOSE_UNITS = {
   'troche': [],
   'cartridge': ['cartridges'],
   'device': [],
+  'pea-sized amount': ['pea-sized'],
+  'to the affected area': ['aaa'],
 }
 
 PAIN_SEVERITIES = {
