@@ -39,13 +39,13 @@ class SigParser(Parser):
         sig_text = ' '.join(sig_text.split())
         return sig_text
 
-    def get_readable(self, match_dict, inferred_method=None, inferred_route=None, inferred_form=None):
+    def get_readable(self, match_dict, inferred_method=None, inferred_route=None, inferred_dose_unit=None):
         method = match_dict['method_readable'] or inferred_method or ''
         dose = match_dict['dose_readable'] or ''
         if match_dict['dose_unit']:
-            form = ''
+            dose_unit = ''
         else:
-            form = inferred_form or ''
+            dose_unit = inferred_dose_unit or ''
         strength = match_dict['strength_readable'] or ''
         route = match_dict['route_readable'] or inferred_route or ''
         frequency = match_dict['frequency_readable'] or ''
@@ -57,7 +57,7 @@ class SigParser(Parser):
 
         if dose != '' and strength != '':
             strength = '(' + strength + ')'
-        sig_elements = [method, dose, form, strength, route, frequency, when, duration, indication, max, additional_info]
+        sig_elements = [method, dose, dose_unit, strength, route, frequency, when, duration, indication, max, additional_info]
         # join sig elements with spaces
         readable = ' '.join(sig_elements)
         # remove duplicate spaces, and in doing so, also trim whitespaces from around sig
@@ -161,7 +161,7 @@ class SigParser(Parser):
         inferred = dict.fromkeys(sig_elements)
         for sig_element in sig_elements:
             inferred[sig_element] = infer_sig_element(sig_element, ndc, rxcui)
-        inferred['sig_readable'] = self.get_readable(match_dict, inferred_method=inferred['method'], inferred_route=inferred['route'], inferred_form=inferred['dose_unit'])
+        inferred['sig_readable'] = self.get_readable(match_dict, inferred_method=inferred['method'], inferred_route=inferred['route'], inferred_dose_unit=inferred['dose_unit'])
         return inferred
 
     # parse a csv
