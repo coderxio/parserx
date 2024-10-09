@@ -1,5 +1,6 @@
 from parsers.sig import *
 import sys
+import json
 
 
 class bcolors:
@@ -29,6 +30,10 @@ def get_input():
             elif sys.argv[1] == "--b":
                 input_file, output_file = sys.argv[2], sys.argv[3]
                 return 2
+            elif sys.argv[1] == "--n":
+                return 3
+            elif sys.argv[1] == "--r":
+                return 4
             else:
                 return 1
         except IndexError:
@@ -44,6 +49,20 @@ def print_usage_instructions():
             + "\n  Individual sig usage: "
             + bcolors.ENDC
             + "main.py your sig goes here"
+        ),
+        (
+            bcolors.BOLD
+            + bcolors.WHITE
+            + "\n  Individual sig usage with inference: "
+            + bcolors.ENDC
+            + "main.py --n <NDC> your sig goes here"
+        ),
+        (
+            bcolors.BOLD
+            + bcolors.WHITE
+            + "\n  Individual sig usage with inference: "
+            + bcolors.ENDC
+            + "main.py --r <RxCUI> your sig goes here"
         ),
         (
             bcolors.BOLD
@@ -65,7 +84,8 @@ def print_usage_instructions():
 
 def generate_output(n):
     if n == 1:
-        print(SigParser().parse(" ".join(sys.argv[1:])))
+        matches = SigParser().parse(" ".join(sys.argv[1:]))
+        print(json.dumps(matches, indent=4))
 
     elif n == 2:
         try:
@@ -79,7 +99,16 @@ def generate_output(n):
             print("Invalid. Enter input and output file names separated by a space.")
         except FileNotFoundError:
             print("Input file not found. Please try again.")
-
+    elif n == 3:
+        results = {}
+        results['parsed'] = SigParser().parse(" ".join(sys.argv[3:]))
+        results['inferred'] = SigParser().infer(results['parsed'], ndc=sys.argv[2]) 
+        print(json.dumps(results, indent=4))
+    elif n == 4:
+        results = {}
+        results['parsed'] = SigParser().parse(" ".join(sys.argv[3:]))
+        results['inferred'] = SigParser().infer(results['parsed'], rxcui=sys.argv[2]) 
+        print(json.dumps(results, indent=4))
 
 if __name__ == "__main__":
     main()
