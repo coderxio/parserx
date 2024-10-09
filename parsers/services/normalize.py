@@ -219,7 +219,7 @@ ROUTES = {
   'via nebulizer': ['via nebulization', r'(?:via |per|using a |from the |by )?nebuliz(?:ation|ed|er|e)', r'(?:\b|\d)neb\b'],
   'in urethra': [r'(?:into|via|within the|within) urethra', 'urethrally', 'urethral'],
   'on the tongue': ['translingual', 'translingually'],
-  'between the cheek and gums': ['buccally', r'between (?:the )?cheek and (?:the )?gums', 'buccal', 'inside the cheek'],
+  'between the cheek and gums': ['buccally', r'between (?:the )?cheek and (?:the )?gum(?:s)?', 'buccal', 'inside the cheek'],
   'to the gum': [],
   'to mucous membrane': [r'(?:to|on) (?:the )?mucous membrane(?:s)?', r'mucous membrane(?:s)?'],
   'via injection': ['by injection route', r'(?:via |per )injection', r'(?<!with )injection(?:s)?(?! intramuscularly| intravenously| cuteneously| subcutaneously| intra-articularly)'],
