@@ -104,7 +104,7 @@ def generate_output(n):
         results['parsed'] = SigParser().parse(" ".join(sys.argv[3:]))
         results['inferred'] = SigParser().infer(results['parsed'], ndc=sys.argv[2]) 
         print(json.dumps(results, indent=4))
-    elif n == 3:
+    elif n == 4:
         results = {}
         results['parsed'] = SigParser().parse(" ".join(sys.argv[3:]))
         results['inferred'] = SigParser().infer(results['parsed'], rxcui=sys.argv[2]) 
