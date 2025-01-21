@@ -14,9 +14,9 @@ def main():
     elif args.b:
         input_file, output_file = args.b
         check_csv_files(args.b)
-        generate_bulk()
+        generate_bulk(input_file, output_file)
     else:
-        print("Something bad happened.")
+        sys.exit("An unknown error occured.")
 
 
 def setup_parser():
@@ -52,18 +52,8 @@ def generate_single():
     print(SigParser().parse(" ".join(sys.argv[1:])))
 
 
-def generate_bulk():
-    try:
-        input_file, output_file = sys.argv[2], sys.argv[3]
-        if input_file.endswith(".csv") and output_file.endswith(".csv"):
-            SigParser().parse_sig_csv(input_file, output_file)
-            print(f"Output written to {output_file}.")
-        else:
-            print("Both files must end with .csv. Please try again.")
-    except ValueError:
-        print("Invalid. Enter input and output file names separated by a space.")
-    except FileNotFoundError:
-        print("Input file not found. Please try again.")
+def generate_bulk(input, output):
+    SigParser().parse_sig_csv(input, output)
 
 
 if __name__ == "__main__":
